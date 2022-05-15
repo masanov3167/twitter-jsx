@@ -8,6 +8,8 @@ import TweetImg from "../../components/TweetImg";
 import { CommentImg, LikeSvg, RepostImg, StatImg, UpImg } from "../../components/Images";
 
 const Home = () => {
+
+	const {getTime, modeToggle,mode, token, tweets, setTweets, setSearchDisplay } = React.useContext(Context);
 	
 	const Val = useRef('');
 	const inputFile = useRef('');
@@ -20,13 +22,15 @@ const Home = () => {
 		data: {}
 	})
 
+	const homeProfilImg = token.pic ? token.pic : userImg;
+
 	function CreateTweets(e) {
 		e.preventDefault();
 		const newTweets = {
 			id: tweets.length,
-			userImg: userImg,
-			name: 'bobur',
-			username: '@bobur_mavlonov',
+			userImg: homeProfilImg,
+			name: token.name ? token.name : 'Bobur',
+			username: token.userName ? token.userName : 'bobur_mavlonov',
 			hour: getTime(),
 			tweet: Val.current.value.trim(),
 			tweetImg: {
@@ -44,16 +48,16 @@ const Home = () => {
 			JSON.stringify([newTweets, ...tweets]),
 		);
 		Val.current.value = null;
-		inputFile.value = null;
+		inputFile.current.value = null;
 		return setTweets([newTweets, ...tweets]);
 	}
 
 
-	const {month, getTime, modeToggle,mode, setMode, tweets, setTweets, setSearchDisplay } = React.useContext(Context);
-
 	window.localStorage.setItem('tweets',JSON.stringify([...tweets]));
 
-	setSearchDisplay(false);
+	React.useEffect(() =>{
+		setSearchDisplay(false);
+	},[])
 
 	const repostFunc = (evt) =>{
 		const checkId = evt.target.dataset.imgId - 0;
@@ -116,9 +120,6 @@ const Home = () => {
 
 	const test =(e) =>{
 		e.preventDefault();
-
-		console.log(editInputVal.current.value);
-		console.log(tweets[edit.index].tweet);
 		tweets[edit.index].tweet = editInputVal.current.value.trim();
 		setTweets([...tweets]);
 		window.localStorage.setItem('tweets', JSON.stringify([...tweets]));
@@ -141,10 +142,10 @@ const Home = () => {
 
 	return (
 		<>
-			<HomeItem title='Home' mode={mode} modeToggle={modeToggle} />
+			<HomeItem  title='Home' mode={mode} modeToggle={modeToggle} />
 
 			<div className='home-hero'>
-				<img src={userImg} alt='profil img' />
+				<img src={token.pic ? token.pic : userImg} alt='profil img' />
 
 				<form
 					className='home-form'
@@ -177,17 +178,17 @@ const Home = () => {
             {tweets.length > 0 ? (
 				tweets.map((e) => (
 					<>
-						<li id={e.id} className="tweet-item">
+						<li  id={e.id} className="tweet-item">
 							<img className="tweet-item-img" src={e.userImg} alt="profil img" />
 							<div className="tweet-item-right">
 								<div className="tweet-item-top">
 									<h2>{e.name}</h2>
-									<span>{e.username}</span>
+									<span>@{e.username}</span>
 									<strong>•</strong>
 									<time>{e.hour}</time>
 								</div>
 				
-								<TweetItem delTweet={delTweet} delId={e.id} editTweet={editTweet} />
+								<TweetItem  delTweet={delTweet} delId={e.id} editTweet={editTweet} />
 				
 								<h2 className="tweet-text">{e.tweet}</h2>
 								{e.tweetImg.Poster ?  <TweetImg imgId={e.id} likeFunc={likeFunc} tweetimgurl={e?.tweetImg.Poster} /> : <></>}
@@ -204,7 +205,7 @@ const Home = () => {
 					</>                  
 					))
 			):(
-				<h2>no tweets...</h2>
+				<h2>Sizning reklamangiz uchun joy ....</h2>
 			)}
                 </ol>
 

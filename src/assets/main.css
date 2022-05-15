@@ -892,6 +892,11 @@
 	border-radius: 3px;
 	outline: none;
 }
+.own-form >button{
+	border-radius: 5px;
+	padding: 3px 6px;
+	border: 1px solid rgba(45, 45, 45, 0.6);
+}
 .own-edit-pic{
 	display: none;
 }

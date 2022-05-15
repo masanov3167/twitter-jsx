@@ -1,13 +1,8 @@
-import { HomeItem } from "../../components/HomeItem"
 import React, { useRef } from "react"
 import { Context } from "../../components/Context"
 import userPic from '../../assets/img/userdefaultimg.png';
 import ProfilPicture from '../../assets/img/profilpicture.png';
 import { CommentImg, LikeSvg, RepostImg, StatImg, UpImg } from "../../components/Images";
-import TweetImg from "../../components/TweetImg";
-// import { Route, Routes } from "react-router-dom";
-// import { ElTweets, TweetsReplies, ElMedia, ElLikes } from "../../components/ProfilItem";
-
 import Dislike from '../../assets/img/dislike.png';
 import Like from '../../assets/img/like.png';
 import userImg from '../../assets/img/userdefaultimg.png';
@@ -126,7 +121,6 @@ const Profil = () =>{
         }
     ])
 
-    console.log(ownTweet);
     React.useEffect(()=>{
         setSearchDisplay(true)
     },[])
@@ -140,7 +134,7 @@ const Profil = () =>{
             </div>
 
             <div className="profil-hero">
-                {token.name ? token.name + ' ' : 'Bobur'}
+                {token.name ? token.name + ' ' : 'Bobur '}
                 {token.surname ? token.surname : 'Mavlonov'}
             </div>
 
@@ -187,9 +181,7 @@ const Profil = () =>{
 									<strong>•</strong>
 									<time>{e.hour}</time>
 								</div>
-				
-								{/* <TweetItem delTweet={delTweet} delId={e.id} editTweet={editTweet} /> */}
-				
+								
 								<h2 className="tweet-text">{e.tweet}</h2>
 								{e.tweetImg ?  <img data-img-id={e.id} className="tweet-img" onDoubleClick={likeFunc} src={e.tweetImg} alt="tweet img" />  : <></>}
 				
@@ -209,15 +201,15 @@ const Profil = () =>{
             <div className={ownProfile ? "form-wrapper" : 'd-none'}>
                     <form className="own-form" onSubmit={editToken} method="post" autoComplete="off">
                     <span onClick={() => setOwnProfile(false)} className='edit-closer'></span>
-                        <input ref={ownName} type="text" placeholder="write your name" maxLength="12" required />
-                        <input ref={ownSurname} type="text" placeholder="write your surname" maxLength="12" required />
-                        <input ref={ownUsername} type="text" placeholder="write your username" maxLength="15" required />
-                        <textarea ref={ownBio}  cols="30" rows="4" maxLength='40'></textarea>
+                        <input ref={ownName} type="text" placeholder="write your name (required)" maxLength="12" required />
+                        <input ref={ownSurname} type="text" placeholder="write your surname (required)" maxLength="12" required />
+                        <input ref={ownUsername} type="text" placeholder="write your username (required)" maxLength="15" required />
+                        <textarea ref={ownBio}  cols="30" rows="4" maxLength='40' placeholder="write your bio (optional)"></textarea>
                         <input ref={ownPic} className="own-edit-pic" type="file" id="own-file-input" accept="imeage/*" />
                         <label className="own-edit-label" htmlFor="own-file-input" >
                             choose a photo
                         </label>
-                        <button type="submit">edit</button>
+                        <button type="submit">Edit profile</button>
                     </form>
             </div>
         </>
@@ -225,3 +217,5 @@ const Profil = () =>{
 }
 
 export default Profil;
+
+
